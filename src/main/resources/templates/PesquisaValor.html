@@ -53,10 +53,14 @@ xmlns:th= "http://www.thymeleaf.org">
 	   					<td class="text-center" th:text="${{cadastro.dataVencimento}}"></td>
 	   					<td class="text-right" th:text="|R$ ${{cadastro.valor}}|"></td>
 	   					<td class="text-center">
-	   						<span class="label" th:text="${cadastro.status.descricao}"></span>
+	   						<span class="label label-success" th:text="${cadastro.status.descricao}"
+	   							 th:classappend="${cadastro.pendente ? 'label-danger' : 'label-success'}"></span>
 	   							
-	   					</td>
+	   					</td>	
 	   					<td class="text-center">
+	   						<a class="btn btn-link btn-xs" th:href="@{/despesas/{codigo}(codigo=${cadastro.codigo})}">
+	   							<span class="glyphicon glyphicon-pencil"></span>
+	   						</a>
 	   						
 	   					</td>
 	   				</tr>

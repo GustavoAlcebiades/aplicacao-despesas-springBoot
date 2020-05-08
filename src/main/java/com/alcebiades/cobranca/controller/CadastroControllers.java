@@ -5,10 +5,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.alcebiades.cobranca.Models.Cadastro;
 import com.alcebiades.cobranca.Models.StatusCadastro;
@@ -25,17 +29,19 @@ public class CadastroControllers {
 	public ModelAndView novo() {
 		
 		ModelAndView mv = new ModelAndView("CadastroTitulo");
+		mv.addObject(new Cadastro());
 		return mv;
 	}
 	
 	@RequestMapping(method =RequestMethod.POST)
-	public ModelAndView salvar(Cadastro cadastro) {
+	public String salvar(@Validated Cadastro cadastro, Errors erros, RedirectAttributes attributes) {
+		if(erros.hasErrors()) {
+			return "CadastroTitulo";
+		}
+		
 		cadastros.save(cadastro);
-		
-		ModelAndView mv = new ModelAndView("CadastroTitulo");
-		mv.addObject("mensagem", "Valor Salvo com Sucesso!");
-		
-		return mv;
+		attributes.addFlashAttribute("mensagem", "Despesa salva com sucesso !");
+		return "redirect:despesas/novo";
 	}
 	
 	@RequestMapping()
@@ -44,6 +50,14 @@ public class CadastroControllers {
 		List<Cadastro> todosCadastros = cadastros.findAll();
 		ModelAndView mv = new ModelAndView("PesquisaValor");
 		mv.addObject("cadastros", todosCadastros);
+		return mv;
+	}
+	
+	
+	@RequestMapping("{codigo}")
+	public ModelAndView edicao(@PathVariable("codigo") Cadastro cadastro) {
+		ModelAndView mv = new ModelAndView("CadastroTitulo"); 
+		mv.addObject(cadastro);
 		return mv;
 	}
 	

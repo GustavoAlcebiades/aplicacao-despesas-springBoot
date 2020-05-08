@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns= http://www.w3.org/2000/svg
-xmlns:th= "http://www.thymeleaf.org">
+xmlns:th= "http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
 <head>
 <meta charset="UTF-8"/>
 
@@ -9,6 +11,7 @@ xmlns:th= "http://www.thymeleaf.org">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
 	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" 
 	crossorigin="anonymous">
+
 	<link rel="stylesheet" type="text/css" href="/css/style.css" />
 </head>
 
@@ -62,20 +65,54 @@ xmlns:th= "http://www.thymeleaf.org">
 	   							<span class="glyphicon glyphicon-pencil"></span>
 	   						</a>
 	   						
+	   						<a class="btn btn-link btn-xs" data-toggle="modal" data-target="#confirmacaoExclusaoModal"
+	   								th:attr="data-codigo=${cadastro.codigo}, data-descricao=${cadastro.descricao}">
+	   							<span class="glyphicon glyphicon-remove"></span>
+	   						</a>
+	   						
 	   					</td>
 	   				</tr>
-      			
+ 				
       				<tr>
       					<td colspan="6" th:if="${#lists.isEmpty(cadastros)}">Nenhum título foi encontrado</td>
       				</tr>
       			</tbody>
       		</table>
       	</div>
-   </div>
- 	
- 	
- 	
-<script type="/js/jquery-351.min.js"></script>
-<script type="/js/bootstrap.min.js"></script>
+      	
+      	
+ <div class="modal fade" id="confirmacaoExclusaoModal" tabindex="-1" data-keyboard="false" data-backdrop="static">
+	<div class="modal-dialog">
+		<form th:attr="data-url-base='/despesas'" method="POST">
+			<input type="hidden" name="_method" value="DELETE"/>
+			
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Você tem certeza?</h4>
+				</div>
+				
+				<div class="modal-body">
+					<span>Tem certeza que deseja apagar o título?</span>
+				</div>
+				
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" data-dismiss="modal">Cancelar</button>
+					<button type="submit" class="btn btn-primary">Excluir</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<script
+  src="https://code.jquery.com/jquery-3.5.1.js"
+  integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+  crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" 
+crossorigin="anonymous"></script>
+
+<script src ="/js/cobranca.js"></script>
 </body>
 </html>

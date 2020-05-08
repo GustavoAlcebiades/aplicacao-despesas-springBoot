@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,12 +54,20 @@ public class CadastroControllers {
 		return mv;
 	}
 	
-	
 	@RequestMapping("{codigo}")
 	public ModelAndView edicao(@PathVariable("codigo") Cadastro cadastro) {
 		ModelAndView mv = new ModelAndView("CadastroTitulo"); 
 		mv.addObject(cadastro);
 		return mv;
+	}
+	
+	@DeleteMapping(value="{codigo}")
+	public String excluir(@PathVariable Long codigo, RedirectAttributes attributes) {
+		
+		cadastros.delete(codigo);
+		
+		attributes.addFlashAttribute("mensagem", "Título excluído com sucesso!");
+		return "redirect:/despesas";
 	}
 	
 	

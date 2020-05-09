@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,14 +16,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.alcebiades.cobranca.Models.Cadastro;
 import com.alcebiades.cobranca.Models.StatusCadastro;
-import com.alcebiades.cobranca.repository.Cadastros;
+import com.alcebiades.cobranca.repository.CadastroRepository;
 
 @Controller
 @RequestMapping("/despesas")
 public class CadastroControllers {
 
 	@Autowired
-	Cadastros cadastros;
+	private CadastroRepository cadastroRepository;
 	
 	@RequestMapping("/novo")
 	public ModelAndView novo() {
@@ -40,7 +39,7 @@ public class CadastroControllers {
 			return "CadastroTitulo";
 		}
 		
-		cadastros.save(cadastro);
+		cadastroRepository.save(cadastro);
 		attributes.addFlashAttribute("mensagem", "Despesa salva com sucesso !");
 		return "redirect:despesas/novo";
 	}
@@ -48,9 +47,9 @@ public class CadastroControllers {
 	@RequestMapping()
 	public ModelAndView pesquisar() {
 		
-		List<Cadastro> todosCadastros = cadastros.findAll();
+		List<Cadastro> todosCadastros = cadastroRepository.findAll();
 		ModelAndView mv = new ModelAndView("PesquisaValor");
-		mv.addObject("cadastros", todosCadastros);
+		mv.addObject("cadastroRepository", todosCadastros);
 		return mv;
 	}
 	
@@ -61,10 +60,9 @@ public class CadastroControllers {
 		return mv;
 	}
 	
-	@DeleteMapping(value="{codigo}")
+	@RequestMapping(value="{codigo}", method = RequestMethod.DELETE)
 	public String excluir(@PathVariable Long codigo, RedirectAttributes attributes) {
-		
-		cadastros.delete(codigo);
+		cadastroRepository.deleteById(codigo);
 		
 		attributes.addFlashAttribute("mensagem", "Título excluído com sucesso!");
 		return "redirect:/despesas";

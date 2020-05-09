@@ -50,7 +50,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
       			</thead>
       			<tbody>
       			
-      				<tr th:each="cadastro : ${cadastros}">
+      				<tr th:each="cadastro : ${cadastroRepository}">
 	   					<td class="text-center" th:text="${cadastro.codigo}">1</td>
 	   					<td th:text="${cadastro.descricao}"></td>
 	   					<td class="text-center" th:text="${{cadastro.dataVencimento}}"></td>

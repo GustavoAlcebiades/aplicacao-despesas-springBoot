@@ -6,4 +6,5 @@ import com.alcebiades.cobranca.Models.Cadastro;
 
 public interface CadastroRepository extends JpaRepository<Cadastro, Long> {
 
+
 }

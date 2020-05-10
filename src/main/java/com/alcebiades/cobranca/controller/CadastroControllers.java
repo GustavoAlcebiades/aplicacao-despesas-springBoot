@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
@@ -24,55 +25,61 @@ public class CadastroControllers {
 
 	@Autowired
 	private CadastroRepository cadastroRepository;
-	
+
+	Cadastro cadastro = new Cadastro();
+
 	@RequestMapping("/novo")
 	public ModelAndView novo() {
-		
+
 		ModelAndView mv = new ModelAndView("CadastroTitulo");
 		mv.addObject(new Cadastro());
 		return mv;
 	}
-	
-	@RequestMapping(method =RequestMethod.POST)
+
+	@RequestMapping(method = RequestMethod.POST)
 	public String salvar(@Validated Cadastro cadastro, Errors erros, RedirectAttributes attributes) {
-		if(erros.hasErrors()) {
+		if (erros.hasErrors()) {
 			return "CadastroTitulo";
 		}
-		
-		cadastroRepository.save(cadastro);
-		attributes.addFlashAttribute("mensagem", "Despesa salva com sucesso !");
-		return "redirect:despesas/novo";
+
+		try {
+			cadastroRepository.save(cadastro);
+			attributes.addFlashAttribute("mensagem", "Despesa salva com sucesso !");
+			return "redirect:despesas/novo";
+		} catch (DataIntegrityViolationException e) {
+			erros.rejectValue("DataVencimento", null, "Formato de data inválido");
+			return "CadastroTitulo";
+		}
 	}
-	
+
 	@RequestMapping()
 	public ModelAndView pesquisar() {
-		
+
 		List<Cadastro> todosCadastros = cadastroRepository.findAll();
 		ModelAndView mv = new ModelAndView("PesquisaValor");
 		mv.addObject("cadastroRepository", todosCadastros);
 		return mv;
 	}
-	
+
 	@RequestMapping("{codigo}")
 	public ModelAndView edicao(@PathVariable("codigo") Cadastro cadastro) {
-		ModelAndView mv = new ModelAndView("CadastroTitulo"); 
+		ModelAndView mv = new ModelAndView("CadastroTitulo");
 		mv.addObject(cadastro);
 		return mv;
 	}
-	
-	@RequestMapping(value="{codigo}", method = RequestMethod.DELETE)
-	public String excluir(@PathVariable Long codigo, RedirectAttributes attributes) {
+
+	@RequestMapping(value = "{codigo}", method = RequestMethod.DELETE)
+	public String excluir(@PathVariable Long codigo) {
+
 		cadastroRepository.deleteById(codigo);
-		
-		attributes.addFlashAttribute("mensagem", "Título excluído com sucesso!");
-		return "redirect:/despesas";
+
+		return "redirect:/despesas/novo";
 	}
-	
 	
 	@ModelAttribute("ListarStatus")
-	public List<StatusCadastro> TodosStatusCadastro(){
-		
+	public List<StatusCadastro> TodosStatusCadastro() {
+
 		return Arrays.asList(StatusCadastro.values());
 	}
-	
+
 }

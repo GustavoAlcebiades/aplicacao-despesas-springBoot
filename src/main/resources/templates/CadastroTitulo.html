@@ -3,17 +3,17 @@
 xmlns:th= "http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
-<head>
-	<meta charset="UTF-8"/>
-	<title>Cadastro Valores</title>
-	
-	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
-	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" 
-	crossorigin="anonymous">
-	
-	<link rel="stylesheet" type="text/css" href="/css/style.css"/>
-</head>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Cadastro Valores</title>
+		
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+		integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" 
+		crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="/css/style.css"/>
+		<link rel="stylesheet" type="text/css" href="/css/bootstrap-datepicker.standalone.css"/>
+	</head>
 <body>
 
   <nav class="navbar navbar-dark bg-dark navbar-inverse navbar-static-top">
@@ -24,10 +24,10 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
     </div>
    </nav>
    
-<form class = "form-horizontal" method = "post" action="/despesas" th:object="${cadastro}">
-	<div class= "alert alert-success" th:if= "${!#strings.isEmpty(mensagem)}">
-		<span th:text= "${mensagem}">Valor Salvo com Sucesso !</span>
-	</div>
+	<form class = "form-horizontal" method = "post" action="/despesas" th:object="${cadastro}">
+		<div class= "alert alert-success" th:if= "${!#strings.isEmpty(mensagem)}">
+			<span th:text= "${mensagem}">Valor Salvo com Sucesso !</span>
+		</div>
 	
 	<div class="alert alert-danger" th:if="${#fields.hasAnyErrors()}">
 		<div th:each="detailedError : ${#fields.detailedErrors()}">
@@ -57,7 +57,9 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<div class = "form-group" th:classappend="${#fields.hasErrors('DataVencimento')} ? has-error">
 			 <label for= "DatadeVencimento" class= "col-sm-2 control-label">Data de vencimento</label>
 		<div class = "col-sm-2">
-			<input type= "text" class="form-control" id="DatadeVencimento" th:field= "*{DataVencimento}"/>
+			<input type= "text" class="form-control" id="DatadeVencimento" th:field= "*{DataVencimento}"
+					data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="pt-BR"
+					data-date-autoclose="true" data-date-today-highlight="true" data-date-orientation="bottom"/>
 		</div>
 	</div>
 	
@@ -73,7 +75,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<div class = "form-group">
 			 <label for= "status" class= "col-sm-2 control-label">Status</label>
 		<div class = "col-sm-2">
-			<select class="form-control" name= "status">
+			<select class="form-control" name= "status" th:field="*{status}">
 				<option th:each="status : ${ListarStatus}" th:value="${status}" th:text="${status.descricao}"></option>
 			</select>
 		</div>
@@ -100,6 +102,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" 
 crossorigin="anonymous"></script>
 
+<script src="/js/bootstrap-datepicker.min.js"></script>
+<script src="/js/bootstrap-datepicker.pt-BR.min.js"></script>
 
 </body>
 </html>

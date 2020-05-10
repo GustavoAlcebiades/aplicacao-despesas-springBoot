@@ -53,7 +53,7 @@ public class CadastroControllers {
 	}
 
 	@RequestMapping()
-	public ModelAndView pesquisar() {
+	public ModelAndView pesquisar(String descricao) {
 
 		List<Cadastro> todosCadastros = cadastroRepository.findAll();
 		ModelAndView mv = new ModelAndView("PesquisaValor");
@@ -75,7 +75,7 @@ public class CadastroControllers {
 
 		return "redirect:/despesas/novo";
 	}
-	
+
 	@ModelAttribute("ListarStatus")
 	public List<StatusCadastro> TodosStatusCadastro() {
 

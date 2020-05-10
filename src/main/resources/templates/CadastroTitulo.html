@@ -1,109 +1,128 @@
 <!DOCTYPE html>
-<html xmlns= http://www.w3.org/2000/svg
-xmlns:th= "http://www.thymeleaf.org"
-xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns=http://www.w3.org/2000/svg
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
-	<head>
-		<meta charset="UTF-8"/>
-		<title>Cadastro Valores</title>
-		
-		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
-		integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" 
-		crossorigin="anonymous">
-		<link rel="stylesheet" type="text/css" href="/css/style.css"/>
-		<link rel="stylesheet" type="text/css" href="/css/bootstrap-datepicker.standalone.css"/>
-	</head>
+<head>
+
+<meta charset="UTF-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+
+<title>Cadastro Valores</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="/css/style.css" />
+<link rel="stylesheet" type="text/css"
+	href="/css/bootstrap-datepicker.standalone.css" />
+</head>
 <body>
 
-  <nav class="navbar navbar-dark bg-dark navbar-inverse navbar-static-top">
-  	<div class = "container-fluid">
-  		<a class="navbar-brand" href="#">
-    	<h1>Cadastro valores</h1>
-    	</a>
-    </div>
-   </nav>
-   
-	<form class = "form-horizontal" method = "post" action="/despesas" th:object="${cadastro}">
-		<div class= "alert alert-success" th:if= "${!#strings.isEmpty(mensagem)}">
-			<span th:text= "${mensagem}">Valor Salvo com Sucesso !</span>
+	<nav
+		class="navbar navbar-dark bg-dark navbar-inverse navbar-static-top">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="#">
+				<h1>Cadastro valores</h1>
+			</a>
 		</div>
-	
-	<div class="alert alert-danger" th:if="${#fields.hasAnyErrors()}">
-		<div th:each="detailedError : ${#fields.detailedErrors()}">
-			<span th:text="${detailedError.message}"></span>
-	</div>
-	
-	</div>	
-		<div class = "panel  panel-default">
-	<div class="panel-heading">
-		<div class= "clearfix">
-			<h1 class = "panel-title g-titulo-panel">Atribuição de despesas</h1>
-				<a class = "btn btn-link g-link-panel" href="/despesas">Voltar para pesquisa</a>
-		</div>
-	</div>
-		
-	<div class = "panel-body">
-		<input type="hidden" th:field="*{codigo}"/>
-	
-		<div class = "form-group" th:classappend="${#fields.hasErrors('descricao')} ? has-error">
-			 <label for= "descricao" class= "col-sm-2 control-label">Descrição</label>
-		<div class = "col-sm-4">
-			<input type= "text" class="form-control" id="descricao" th:field= "*{descricao}"/>
-		</div>
-	</div>
-	
-	<div class = "form-group">
-		<div class = "form-group" th:classappend="${#fields.hasErrors('DataVencimento')} ? has-error">
-			 <label for= "DatadeVencimento" class= "col-sm-2 control-label">Data de vencimento</label>
-		<div class = "col-sm-2">
-			<input type= "text" class="form-control" id="DatadeVencimento" th:field= "*{DataVencimento}"
-					data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-language="pt-BR"
-					data-date-autoclose="true" data-date-today-highlight="true" data-date-orientation="bottom"/>
-		</div>
-	</div>
-	
-	<div class = "form-group">
-		<div class = "form-group" th:classappend="${#fields.hasErrors('valor')} ? has-error">
-			 <label for= "Valor" class= "col-sm-2 control-label">Valor</label>
-		<div class = "col-sm-2">
-			<input type= "text" class="form-control" id="Valor" th:field= "*{valor}"/>
-		</div>
-	</div>
-	
-	<div class = "form-group">
-		<div class = "form-group">
-			 <label for= "status" class= "col-sm-2 control-label">Status</label>
-		<div class = "col-sm-2">
-			<select class="form-control" name= "status" th:field="*{status}">
-				<option th:each="status : ${ListarStatus}" th:value="${status}" th:text="${status.descricao}"></option>
-			</select>
-		</div>
-	</div>
-  
-  			<div class= "form-group">
-  				<div class= "col-sm-offset-2 col-sm-10">
-  					<button type="submit" class="btn btn-primary">Salvar</button>
-  			</div>
-  			</div>
-  	</div>
- 	 </div>
-	</div>
-  </div>
-</div>
-</form>
- 
-<script
-  src="https://code.jquery.com/jquery-3.5.1.js"
-  integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
-  crossorigin="anonymous"></script>
-  
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" 
-integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" 
-crossorigin="anonymous"></script>
+	</nav>
 
-<script src="/js/bootstrap-datepicker.min.js"></script>
-<script src="/js/bootstrap-datepicker.pt-BR.min.js"></script>
+	<form class="form-horizontal" method="post" action="/despesas"
+		th:object="${cadastro}">
+		<div class="alert alert-success"
+			th:if="${!#strings.isEmpty(mensagem)}">
+			<span th:text="${mensagem}">Valor Salvo com Sucesso !</span>
+		</div>
+
+		<div class="alert alert-danger" th:if="${#fields.hasAnyErrors()}">
+			<div th:each="detailedError : ${#fields.detailedErrors()}">
+				<span th:text="${detailedError.message}"></span>
+			</div>
+
+		</div>
+		<div class="panel  panel-default">
+			<div class="panel-heading">
+				<div class="clearfix">
+					<h1 class="panel-title g-titulo-panel">Atribuição de despesas</h1>
+					<a class="btn btn-link g-link-panel" href="/despesas">Voltar
+						para pesquisa</a>
+				</div>
+			</div>
+
+			<div class="panel-body">
+				<input type="hidden" th:field="*{codigo}" />
+
+				<div class="form-group"
+					th:classappend="${#fields.hasErrors('descricao')} ? has-error">
+					<label for="descricao" class="col-sm-2 control-label">Descrição</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" id="descricao"
+							th:field="*{descricao}" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="form-group"
+						th:classappend="${#fields.hasErrors('DataVencimento')} ? has-error">
+						<label for="DatadeVencimento" class="col-sm-2 control-label">Data
+							de vencimento</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" id="DatadeVencimento"
+								th:field="*{DataVencimento}" data-provide="datepicker"
+								data-date-format="dd/mm/yyyy" data-date-language="pt-BR"
+								data-date-autoclose="true" data-date-today-highlight="true"
+								data-date-orientation="bottom" />
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="form-group"
+							th:classappend="${#fields.hasErrors('valor')} ? has-error">
+							<label for="Valor" class="col-sm-2 control-label">Valor</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" id="Valor"
+									th:field="*{valor}" />
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="form-group">
+								<label for="status" class="col-sm-2 control-label">Status</label>
+								<div class="col-sm-2">
+									<select class="form-control" name="status" th:field="*{status}">
+										<option th:each="status : ${ListarStatus}"
+											th:value="${status}" th:text="${status.descricao}"></option>
+									</select>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<div class="col-sm-offset-2 col-sm-10">
+									<button type="submit" class="btn btn-primary">Salvar</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<script src="https://code.jquery.com/jquery-3.5.1.js"
+		integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+		crossorigin="anonymous"></script>
+
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+		crossorigin="anonymous"></script>
+
+	<script src="/js/bootstrap-datepicker.min.js"></script>
+	<script src="/js/bootstrap-datepicker.pt-BR.min.js"></script>
 
 </body>
 </html>

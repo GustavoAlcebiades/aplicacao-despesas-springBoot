@@ -1,7 +1,5 @@
 package com.alcebiades.cobranca.Models;
 
-import java.math.BigDecimal;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,10 +11,11 @@ public class LoginUsuario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
 	private String nome;
 	private String sobrenome;
 	private String email;
-	private BigDecimal senha;
+	private String senha;
 
 	public LoginUsuario() {
 	}
@@ -53,11 +52,11 @@ public class LoginUsuario {
 		this.email = email;
 	}
 
-	public BigDecimal getSenha() {
+	public String getSenha() {
 		return senha;
 	}
 
-	public void setSenha(BigDecimal senha) {
+	public void setSenha(String senha) {
 		this.senha = senha;
 	}
 

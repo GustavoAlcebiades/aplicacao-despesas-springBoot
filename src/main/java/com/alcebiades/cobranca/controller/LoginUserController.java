@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,13 +32,22 @@ public class LoginUserController {
 	@RequestMapping(method = RequestMethod.POST)
 	public String salvar(@Validated LoginUsuario loginUsuario, Errors erros, RedirectAttributes attributes) {
 		if (erros.hasErrors()) {
-			return "CadastroTitulo";
+			return "PesquisaValor";
 		}
 
 		loginUserRepository.save(loginUsuario);
 		attributes.addFlashAttribute("mensagem", "Cadastro Salvo com Sucesso !");
-		return "redirect:user/login";
+		return "redirect:user/login/pessoa";
 
+	}
+
+	@RequestMapping("/pessoa")
+	public ModelAndView pesquisar(String nome) {
+
+		List<LoginUsuario> todosLogin = loginUserRepository.findAll();
+		ModelAndView mv = new ModelAndView("ListarUsuario");
+		mv.addObject("loginUserRepository", todosLogin);
+		return mv;
 	}
 
 }
